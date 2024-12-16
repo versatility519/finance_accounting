@@ -5,7 +5,7 @@ from apps.inventory.models import IssueUnit
 from apps.client.models import Client, Contact
 from apps.account.models import LedgerAccount
 from apps.organization.models import Tax
-from apps.users.models import CustomUser
+from apps.user.models import User
 
 class InvoiceDoc(models.Model):
     name = models.CharField(max_length=100)
@@ -111,7 +111,7 @@ class Invoice(models.Model):
         
 class InvoiceNotes(models.Model):
     notes = models.CharField(max_length=200)
-    user = models.ForeignKey(CustomUser, related_name='invoice_user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='invoice_user', on_delete=models.CASCADE)
     invoice = models.ForeignKey('Invoice', related_name='notes', on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)

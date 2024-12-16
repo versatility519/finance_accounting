@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from apps.account.models import LedgerAccount
-from apps.users.models import CustomUser
+from apps.user.models import User
 from apps.inventory.models import IssueUnit
 from apps.organization.models import Tax, Department
 
@@ -60,8 +60,8 @@ class Sales(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     approved = models.BooleanField(default=False)
-    approved_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='approved_sales')
-    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_sales')
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='approved_sales')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_sales')
     
     status = models.CharField(max_length=20, choices=[
         ('created', 'Created'),

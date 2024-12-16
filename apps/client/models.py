@@ -1,5 +1,5 @@
 from django.db import models
-from apps.users.models import CustomUser
+from apps.user.models import User
 # Create your models here.
     
 class Client(models.Model):
@@ -7,7 +7,7 @@ class Client(models.Model):
     address = models.CharField(max_length=100)
     billing_address = models.CharField(max_length=100)
     shipping_address = models.CharField(max_length=100)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

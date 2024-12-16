@@ -2,15 +2,17 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from .models import CustomUser as User
-from django.contrib.auth.models import Group
 from apps.organization.models import Organization
+import logging
+
+logger = logging.getLogger(__name__)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
         
-class SignupSerializer(serializers.ModelSerializer):
+class SignUpSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True, required=True)
     organization = serializers.PrimaryKeyRelatedField(queryset=Organization.objects.all(), required=True)
@@ -39,51 +41,59 @@ class SignupSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class SigninSerializer(serializers.Serializer):
+# class SignInSerializer(serializers.Serializer):
+#     username = serializers.CharField(required=True)
+#     password = serializers.CharField(required=True, write_only=True)
+
+#     def validate(self, data):
+#         username = data.get('username')
+#         password = data.get('password')
+        
+#         print(f"Attempting to authenticate user: {username}")
+#         print(f"Password length: {len(password)}")
+
+#         if username and password:
+#             user = authenticate(username=username, password=password)
+            
+#             print('=======>', user)
+            
+#             if user is not None:
+#                 if user.is_active:
+#                     data['user'] = user
+#                 else:
+#                     raise serializers.ValidationError("User account is disabled.")
+#             # if user:
+#             #     if user.is_active:
+#             #         data['user'] = user
+#             #     else:
+#             #         raise serializers.ValidationError("User account is disabled.")
+#             # else:
+#             #     raise serializers.ValidationError("Unable to log in with provided credentials.")
+#         else:
+#             raise serializers.ValidationError("Must include 'username' and 'password'.")
+        
+#         return data
+
+    
+class SignInSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
 
-    def validate(self, data):
-        username = data.get('username')
-        password = data.get('password')
-        
-        print(f"Attempting to authenticate user: {username}")
-        print(f"Password length: {len(password)}")
+    def validate_username(self, value):
+        if not value:
+            raise serializers.ValidationError("Username is required.")
+        return value
 
-        if username and password:
-            user = authenticate(username=username, password=password)
-            
-            print('=======>', user)
-            
-            if user is not None:
-                if user.is_active:
-                    data['user'] = user
-                else:
-                    raise serializers.ValidationError("User account is disabled.")
-            # if user:
-            #     if user.is_active:
-            #         data['user'] = user
-            #     else:
-            #         raise serializers.ValidationError("User account is disabled.")
-            # else:
-            #     raise serializers.ValidationError("Unable to log in with provided credentials.")
-        else:
-            raise serializers.ValidationError("Must include 'username' and 'password'.")
-        
-        return data
-        
-# class SigninSerializer(serializers.Serializer):
-    
-#     # username = serializers.CharField(required=True)
-#     email = serializers.EmailField(required=True)
-#     password = serializers.CharField(write_only=True, required=True)
-#     print("respond data", serializers)
-    
-#     def validate(self, data):
-#         user = authenticate(email=data['email'], password=data['password'])
-        
-#         print("====>", user)
-        
-#         if user and user.is_active:
-#             return user
-#         raise serializers.ValidationError("Invalid credentials or account is inactive.")
+    def validate_password(self, value):
+        if not value:
+            raise serializers.ValidationError("Password is required.")
+        return value
+
+    def validate(self, attrs):
+        user = authenticate(username=attrs['username'], password=attrs['password'])
+        if user is None:
+            logger.warning(f"Failed login attempt for username: {attrs['username']}")
+            logger.warning(f"Failed login attempt for password: {attrs['password']}")
+            raise serializers.ValidationError("Invalid credentials")
+        attrs['user'] = user
+        return attrs

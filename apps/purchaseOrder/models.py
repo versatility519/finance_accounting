@@ -5,7 +5,7 @@ from apps.organization.models import Tax, Department
 
 from apps.account.models import LedgerAccount
 
-from apps.users.models import CustomUser
+from apps.user.models import User
 
 # Create your models here.
 class PurchaseDocument(models.Model):
@@ -80,8 +80,8 @@ class PurchaseOrder(models.Model):
         ('canncelled', 'Canncelled')
     ])
      
-    # approved_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # approved_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)
     

@@ -4,8 +4,8 @@ from .models import Requisition, RequisitionItem, RequisitionDoc
 from apps.organization.models import Tax, Department
 from apps.organization.serializers import TaxSerializer, DepartmentSerializer
 
-from apps.users.models import CustomUser
-from apps.users.serializers import UserSerializer
+from apps.user.models import User
+from apps.user.serializers import UserSerializer
 
 from apps.supplier.models import Supplier
 from apps.supplier.serializers import SupplierSerializer
@@ -66,8 +66,8 @@ class RequisitionSerializer(serializers.ModelSerializer):
     items = RequisitionItemSerializer(many=True)
     
     department = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all())
-    approved_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
-    created_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    approved_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    created_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     docs = serializers.PrimaryKeyRelatedField(queryset=RequisitionDoc.objects.all())
 
     class Meta:

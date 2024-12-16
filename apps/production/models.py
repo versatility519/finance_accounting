@@ -1,7 +1,7 @@
 from django.db import models
 from apps.inventory.models import OrderUnit
 from apps.project.models import Project
-from apps.users.models import CustomUser
+from apps.user.models import User
 
 # Create your models here.
 class Pdocument(models.Model):
@@ -61,9 +61,9 @@ class Production(models.Model):
         ]
     )
      
-    # created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='productions')
+    # created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='productions')
     approved = models.BooleanField(default=False)
-    approved_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='productions')
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='productions')
     
     def __str__(self):
         return self.p_name

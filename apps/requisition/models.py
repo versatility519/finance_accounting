@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.organization.models import Department
-from apps.users.models import CustomUser
+from apps.user.models import User
 from apps.supplier.models import Supplier
 from apps.organization.models import Tax
 from apps.inventory.models import OrderUnit
@@ -60,8 +60,8 @@ class Requisition(models.Model):
     bill_to = models.CharField(max_length=100)
 
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    approved_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='approved_requisitions')
-    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_requisitions')
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='approved_requisitions')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_requisitions')
     
     total_tax_amount = models.DecimalField(max_digits=10, decimal_places=3, editable=False, null=True)
     total_net_amount = models.DecimalField(max_digits=10, decimal_places=3, editable=False, null=True)

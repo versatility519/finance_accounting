@@ -1,5 +1,5 @@
 from django.db import models
-from apps.users.models import CustomUser
+from apps.user.models import User
 from apps.account.models import LedgerAccount
 from apps.purchaseOrder.models import PurchaseOrder
 from apps.inventory.models import InventoryItem
@@ -17,7 +17,7 @@ class Supplier(models.Model):
     supplier_name = models.CharField(max_length=100)
     billing_address = models.TextField(max_length=200)
     shipping_address = models.TextField(max_length=200)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     account = models.ForeignKey(LedgerAccount, on_delete=models.CASCADE, null=True, blank=True)
     inventory_items = models.ForeignKey(
         InventoryItem,

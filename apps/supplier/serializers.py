@@ -47,7 +47,7 @@ class SupplierItemSerializer(serializers.ModelSerializer):
         return value
 
 class SupplierSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=apps.get_model('users', 'CustomUser').objects.all(), required=False, allow_null=True)
+    user = serializers.PrimaryKeyRelatedField(queryset=apps.get_model('user', 'User').objects.all(), required=False, allow_null=True)
     account = serializers.PrimaryKeyRelatedField(queryset=apps.get_model('account', 'LedgerAccount').objects.all(), required=False, allow_null=True)
     inventory_items = serializers.PrimaryKeyRelatedField(many=True, queryset=apps.get_model('inventory', 'InventoryItem').objects.all(), required=False)
     supplier_items = SupplierItemSerializer(many=True, read_only=True)

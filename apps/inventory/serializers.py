@@ -1,7 +1,7 @@
 from django.db import models
 from rest_framework import serializers
-from apps.users.models import CustomUser
-from apps.users.serializers import UserSerializer
+from apps.user.models import User
+from apps.user.serializers import UserSerializer
 
 from apps.project.models import Project
 from apps.project.serializers import ProjectSerializer
@@ -127,7 +127,7 @@ class IssueItemSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     # items = IssueItemSerializer(many=True)
     items = serializers.PrimaryKeyRelatedField(queryset=IssueItem.objects.all())
-    storekeeper = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    storekeeper = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
 
     class Meta:
@@ -169,8 +169,8 @@ class ReservationItemSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     items = serializers.PrimaryKeyRelatedField(queryset=ReservationItem.objects.all())
-    reserved_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
-    storekeeper = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    reserved_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    storekeeper = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
     
     class Meta:
@@ -224,7 +224,7 @@ class ReceptionItemSerializer(serializers.ModelSerializer):
 
 class ReceptionSerializer(serializers.ModelSerializer):
     items = serializers.PrimaryKeyRelatedField(queryset=ReceptionItem.objects.all())
-    storekeeper = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    storekeeper = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     recep_doc = serializers.PrimaryKeyRelatedField(queryset=ReceptionDoc.objects.all())
     purchase_order = serializers.PrimaryKeyRelatedField(queryset=PurchaseOrder.objects.all())
     
@@ -269,7 +269,7 @@ class TransfertItemSerializer(serializers.ModelSerializer):
     
 class TransfertSerializer(serializers.ModelSerializer):
     trans_items = serializers.PrimaryKeyRelatedField(queryset=TransfertItem.objects.all()) 
-    created_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    created_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     bin = serializers.PrimaryKeyRelatedField(queryset = Bin.objects.all())
 
     class Meta:

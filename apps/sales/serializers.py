@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 
 from .models import Sales, SalesItem
 
-from apps.users.models import CustomUser
-from apps.users.serializers import UserSerializer
+from apps.user.models import User
+from apps.user.serializers import UserSerializer
 
 from apps.inventory.models import IssueUnit
 from apps.inventory.serializers import IssueUnitSerializer
@@ -47,8 +47,8 @@ class SalesItemSerializer(serializers.ModelSerializer):
 class SalesSerializer(serializers.ModelSerializer):
     items = SalesItemSerializer(many=True, required=False)
     department = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all())
-    approved_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), required=False)
-    created_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), required=False)
+    approved_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+    created_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
 
     class Meta:
         model = Sales
@@ -133,8 +133,8 @@ class SalesSerializer(serializers.ModelSerializer):
 # class SalesSerializer(serializers.ModelSerializer):
 #     items = SalesItemSerializer(many=True)
 #     department = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all())
-#     approved_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
-#     created_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+#     approved_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+#     created_by = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     
 #     class Meta:
 #         model = Sales

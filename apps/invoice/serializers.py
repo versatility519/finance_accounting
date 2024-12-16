@@ -12,8 +12,8 @@ from apps.account.serializers import LedgerAccountSerializer
 from apps.organization.models import Tax
 from apps.organization.serializers import TaxSerializer
 
-from apps.users.models import CustomUser
-from apps.users.serializers import UserSerializer
+from apps.user.models import User
+from apps.user.serializers import UserSerializer
 
 from apps.client.models import Client, Contact
 from apps.client.serializers import ClientSerializer, ContactSerializer
@@ -122,7 +122,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
     
 class InvoiceNoteSerializer(serializers.ModelSerializer):
     invoice = serializers.PrimaryKeyRelatedField(queryset=Invoice.objects.all())
-    user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
        
     class Meta:
         model = InvoiceNotes

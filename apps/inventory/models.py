@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from apps.users.models import CustomUser
+from apps.user.models import User
 from apps.account.models import LedgerAccount
 
 from apps.project.models import Project
@@ -106,7 +106,7 @@ class Reception(models.Model):
     items = models.ForeignKey('ReceptionItem',on_delete=models.CASCADE)
     notes = models.CharField(max_length=100)
     storekeeper = models.ForeignKey(
-        CustomUser, 
+        User, 
         related_name='reception_as_storekeeper', 
         on_delete=models.CASCADE
     )
@@ -148,12 +148,12 @@ class Reservation(models.Model):
     reason = models.CharField(max_length=100)
     project = models.ForeignKey(Project, blank=True, null=True, on_delete=models.CASCADE)
     reserved_by = models.ForeignKey(
-        CustomUser, 
+        User, 
         related_name='reservation_as_reserved_by',
         on_delete=models.CASCADE
     )
     storekeeper = models.ForeignKey(
-        CustomUser, 
+        User, 
         related_name='reservation_as_storekeeper',
         on_delete=models.CASCADE
     )
@@ -186,7 +186,7 @@ class Issue(models.Model):
     reason = models.CharField(max_length=100)
 
     storekeeper = models.ForeignKey(
-        CustomUser,
+        User,
         related_name='issue_as_storekeeper',
         on_delete=models.CASCADE
     )
@@ -228,7 +228,7 @@ class Transfert(models.Model):
     trans_number = models.CharField(max_length=20)
     trans_items = models.ForeignKey('TransfertItem', on_delete=models.CASCADE)
     reason = models.CharField(max_length=100)
-    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     bin = models.ForeignKey(Bin, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=[
         ('approve', 'Approve'),
